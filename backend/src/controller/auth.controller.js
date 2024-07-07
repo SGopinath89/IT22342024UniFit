@@ -36,9 +36,10 @@ const login = async(req, res) =>{
                 message : "Invalid password"
             })
         }
-        const token = generateToken(user)
+        const token = await generateToken(user)
         return res.status(200).json({
-            message : "Login Successful"
+            message : "Login Successful",
+            token
         })
     }
     catch(error){
