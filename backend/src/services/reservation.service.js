@@ -58,9 +58,9 @@ const getReservationByUserAndSession = async (sessionId, userId) => {
     }
 }
 
-const getReservationCountBySession = async (sessionId) => {
+const getReservationCount = async (sessionId) => {
     try{
-        return await Reservation.countDocuments({sessionId: sessionId})
+        return await Reservation.countDocuments({session: sessionId})
     }
     catch(error){
         throw new Error(error)
@@ -91,7 +91,7 @@ module.exports = reservationService = {
     getReservationsById,
     getResrvationByUserId,
     getReservationByUserAndSession,
-    getReservationCountBySession,
+    getReservationCount,
     updateReservation,
     deleteReservation
 }   

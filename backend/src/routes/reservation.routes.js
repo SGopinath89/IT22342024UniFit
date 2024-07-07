@@ -9,5 +9,6 @@ reservation.get('/', authenticate,adminTrainerSecure,reservationController.getAl
 reservation.get('/:id',authenticate, adminTrainerSecure, reservationController.getReservationById);
 reservation.patch('/:id', authenticate,reservationController.updateReservation);
 reservation.delete('/:id',authenticate, reservationController.deleteReservation);
+reservation.get('/count/:id',authenticate,adminTrainerSecure,reservationController.getReservationCount);
 
 module.exports = reservation;

@@ -5,7 +5,7 @@ const user = express.Router();
 
 user.get('/', authenticate, adminTrainerSecure,userController.getAllUsers);
 user.get('/:id', authenticate, adminTrainerSecure, userController.getUserById);
-user.patch('/:id', authenticate, adminSecure, userController.updateUser);
+user.patch('/:id', authenticate, userController.updateUser);
 user.delete('/:id', authenticate, adminSecure, userController.deleteUser);
 
 module.exports = user;
