@@ -31,46 +31,25 @@ const updateUser = async (id, payload,user) =>{
         throw new Error("Forbidden Access")
     }
 
-    if(payload.password ==="TRAINER" && user.role !== "TRAINER"){
+    if(payload.role ==="TRAINER" && user.role !== "TRAINER"){
         throw new Error("Forbidden Access")
     }
 
-    if(payload.password){
-        const {password} = payload
-        const hash = hashPassword(password)
-        payload.password = hash
-    }
     return await User.findByIdAndUpdate(id,payload,{new:true})
 }
 
-const changePassword = async (id, password) =>{ 
-    const hash = userService.hashPassword(password)
-    return await User.findByIdAndUpdate(id,{password:hash},{new:true})
- }
-
- const deleteUser = async (id,user) =>{
-    if(user.role !== "ADMIN"){
-        throw new Error("Forbidden Access")
-    }
-    else{
-        return await User.findByIdAndDelete(id)
-    }
- }
- const checkUser = async(id,role)=>{
-    const user = await getUserById(id)
-
-    if (!user){
+ const deleteUser = async (id) =>{
+    if(!id){
         throw new Error("User not found")
+    
     }
-
-    return user.role === role
+        return await User.findByIdAndDelete(id)
+    
  }
 
  module.exports = userService = {
         getAllUsers,
         getUserById,
         updateUser,
-        changePassword,
         deleteUser,
-        checkUser
  }

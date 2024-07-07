@@ -4,17 +4,17 @@ const jwt = require("jsonwebtoken")
 
 const extractToken = (req) => {
     return req.headers.authorization
-    ? req.headers.authorization.startWith("Bearer") 
-    ? req.headers.authorization.split(" ")[1]
-    ?.replace("null", "")   
-    ?.replace("undefined", "")
-    : null
-    : null
-}
+      ? req.headers.authorization.startsWith("Bearer")
+        ? req.headers.authorization
+            .split(" ")[1]
+            ?.replace("null", "")
+            ?.replace("undefined", "")
+        : null
+      : null;
+  };
 
 const authenticate = async(req,res,next) => {
     const token = extractToken(req)
-
     if(!token){
         return res.status(401).json({message:"Unauthorized"})
     }
@@ -36,11 +36,11 @@ const adminSecure = async(req,res,next) => {
     if(req.user.role == "" ||req.user.role !== "ADMIN"){
         return res.status(403).json({
             user:{
-                username:req.user.username,
+                firstName:req.user.firstName,
                 email:req.user.email,
                 role:req.user.role
             },
-            message:"Forbidden access"
+            message:"Forbidden access, Admin only"
         })
     }
     next()
@@ -50,18 +50,36 @@ const trainerSecure = async(req,res,next) => {
     if(req.user.role == "" ||req.user.role !== "TRAINER"){
         return res.status(403).json({
             user:{
-                username:req.user.username,
+                firstName:req.user.firstName,
                 email:req.user.email,
                 role:req.user.role
             },
-            message:"Forbidden access"
+            message:"Forbidden access, Trainer only"
         })
     }
     next()
+}
+const adminTrainerSecure = async(req,res,next) => {
+   
+    if(req.user.role == "ADMIN" || req.user.role == "TRAINER"){
+       next()
+    }
+    else{
+        return res.status(403).json({
+            user:{
+                firstName:req.user.firstName,
+                email:req.user.email,
+                role:req.user.role
+            },
+            message:"Forbidden access, Admin or Trainer only"
+        })
+    
+    }
 }
 
 module.exports = {
     authenticate,
     adminSecure,
-    trainerSecure
+    trainerSecure,
+    adminTrainerSecure
 }
