@@ -1,4 +1,4 @@
-const { Schema, model } = require("mongoose"); // Import the Schema and model functions from the mongoose package
+const { Schema, model } = require("mongoose");
 const userSchema = Schema(
   {
     firstName: {
