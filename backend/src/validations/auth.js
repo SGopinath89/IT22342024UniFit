@@ -7,7 +7,7 @@ const PASSWORD_REGEX =  /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[#$@!%&*?])[A-Za-z\
 const registrationSchema = z.object({
     firstName: z.string().min(1),
     lastName: z.string().min(1),
-    dob: z.date(),
+    dob: z.string(),
     gender: z.string().min(1),
     nicNo: z.string().min(1),
     mobileNo: z.string().min(10,{message: "Invalid mobile number"}),
